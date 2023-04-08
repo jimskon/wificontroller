@@ -56,7 +56,6 @@ CREATE TABLE `wlans` (
   `dateadded` datetime DEFAULT NULL,
   `autochannel` BOOLEAN DEFAULT TRUE,
   `channel` int(11) DEFAULT 0,
-  `zoneid` int(11) DEFAULT NULL,
   `clientid` int(11) DEFAULT NULL,
   FOREIGN KEY (clientid) REFERENCES wificlient(id),
   FOREIGN KEY (zoneid) REFERENCES zone(id)
@@ -78,6 +77,14 @@ CREATE TABLE `userzone` (
   FOREIGN KEY (zoneid) REFERENCES zone(id),
   FOREIGN KEY (userid) REFERENCES user(id),
   CONSTRAINT pk_userzone PRIMARY KEY (zoneid,userid)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `wlanzone` (
+  `zoneid` int(11) NOT NULL,
+  `wlanid` int(11) NOT NULL,
+  FOREIGN KEY (zoneid) REFERENCES zone(id),
+  FOREIGN KEY (wlanid) REFERENCES wlan(id),
+  CONSTRAINT pk_userzone PRIMARY KEY (zoneid,wlanid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 COMMIT;
