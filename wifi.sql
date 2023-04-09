@@ -66,7 +66,6 @@ CREATE TABLE `user` (
   `name` varchar(30) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
   `passphrase` varchar(50) DEFAULT NULL,
-  `mdk` varchar(60) DEFAULT NULL,
   `ownerid` int(11) DEFAULT NULL,
   FOREIGN KEY (ownerid) REFERENCES owner(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -74,6 +73,7 @@ CREATE TABLE `user` (
 CREATE TABLE `userzone` (
   `zoneid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
+  `mdk` varchar(60) DEFAULT NULL,
   FOREIGN KEY (zoneid) REFERENCES zone(id),
   FOREIGN KEY (userid) REFERENCES user(id),
   CONSTRAINT pk_userzone PRIMARY KEY (zoneid,userid)
