@@ -1,0 +1,1133 @@
+hostapd_2.9.0-21_armhf.deb
+Build
+dpkg-buildpackage -b
+Install
+dpkg -i hostapd_2.9.0-21_armhf.deb
+
+https://drive.google.com/drive/u/1/folders/1eIkslwxwf0GR5MZm_SjEkrX0c6UUYHMK
+
+Task list Priority
+Jim
+1.	PiFI Update - Update button on AP scaffold update WiFi components - not needed
+2.	Fixed VLAN for Open auth - done
+3.	More complete reporting of PiFi state in scaffold - mostly done
+a.	Health messages
+b.	Error log transmission option 
+4.	Multiple SSIDs with multiple radios - done
+5.	Multiple SSIDs, same radio - need different hardware
+6.	Hostapd sends PMK association records to rXg for logging. Kind of done
+7.	Put PMK file on ram drive
+8.	Radius VLAN management/assignment from pool - done
+9.	Deployment Management - rXg push PiFi update to Pi - done
+10.	API Version management
+11.	Encrypted tunnel to rXg (GRE)
+12.	Layer 3 discovery
+13.	AP Neighbor scan, send to rXg
+14.	Auto Channel selection on PiFi - done
+15.	Auto Channel selection on rXg from neighbor scan
+
+Mike
+1.	PiFI Update
+2.	Show radios within AP Scaffold
+3.	Reporting of PiFi State
+a.	Colored check mark
+b.	Viewing error log
+4.	Multiple SSIDs
+5.	Radius VLAN management
+6.	Deployment Management
+7.	API Version management, auto updates
+8.	Tunnel to rXg
+
+Projects:
+1.	Managing API versions (proposal in document)
+2.	Rxg auto provisioning (upgrading pifi) 
+3.	Piglet GRE/IPSec (TLS) Tunnel to rXg.  Or simple AES.
+4.	Use PSK as the AES KEY for tunneling
+5.	Dynamic VLAN IDs through radius
+6.	802.11x
+7.	Open SSID and Bulk assign users to vlan tags.  VTA logic.  The Pi sends a MAC and gets a VLAN. VLAN number server.
+8.	Return client information to rXg
+9.	Return ap survey information to rXg
+
+Things to fix on pifi
+1.	Add/remove PMK’s without restart 
+2.	Layer three rXg discovery (DHCP option ot DNS name)
+3.	Add reboot
+4.	Send uptime
+5.	
+
+Radius for PiFi
+https://radcli.github.io/radcli/manual/group__radcli-api.html
+https://radcli.github.io/radcli/manual/group__radcli-api.html
+
+Fast roaming: https://blog.fem.tu-ilmenau.de/archives/1002-HowTo-enable-WiFi-roaming-with-hostapd-and-VLANs.html
+
+
+
+Either restart your webserver into production mode, or go into cli and run repl then do Rxg::App::RailsCluster->performFileChecks
+7:01
+It happens after the logs get rotated, and I haven't been able to figure out why yet
+
+ldd  7:09 AM
+https://git.rgnets.com/rgnets/rxg/-/issues/1227
+
+Status indicators for AP 
+On the scaffold  - Green, Yellow, red
+In the detail - 
+1.	State AP is in.  Unregistered, bad config (catch error and report)
+2.	rXg configuration errors should be reported
+3.	PiFi API version
+Debug mode
+
+Status for Radio
+On the the scaffold
+In the detail
+
+Deployment 
+USB Token (one per installer)
+1.	USB flash with with small file containing installer username (may be many installers)
+2.	User puts in USB, installs PiFi, powers up
+3.	User goes rXg page, goes to “install pifi” portal
+4.	rXg looks for PiFi signalling that this user is installing, brings up install forms.
+5.	User enters location
+6.	Optionally the user clicks on the floor plan to show location.
+7.	User removed USB and goes to install next PiFi
+
+USB Someone makes a USB for each location, puts the location name in a file.
+1.	All locations are decided in advance.  A small USB is made for each with the location name on the USB
+2.	A label is put on he PiFi with the location.
+3.	The PiFis are installed at the locations. 
+4.	The PiFi is powered up, and it contacts teh rXg Controller
+5.	The Name on the flash is given to the AP in the AP scaffold
+
+Finding and debugging PiFi.
+1.	The PiFi has a LED that can be flashed from the rXg
+
+
+Faults possible
+rXg 
+1.	Not approved
+2.	No AP Profile associated with AP
+3.	AP has no radios
+4.	AP Profile has not associated radio profile
+5.	AP Profile has not associated WLANs
+6.	Pi offline
+7.	API version mismatch
+8.	AP profile has too many SSIDs  for HW
+
+Piglet - implement as part of health state
+1.	No radios (May be valid)
+2.	No rXg (no gateway)
+3.	Hostapd will not start with configuration (send error)
+4.	wlanbridge fails to start
+5.	Piglet unreportable
+- No rXg (no gateway), (slow flashing red led)
+- no IP address (fast flashing red)
+- AP Dead - solid red
+
+
+
+
+
+# Hash: 20e1aa5fc5d16b9ed5480287d1e668d7
+# Warning - This file is auto generated.  Do not modify
+ctrl_interface=/var/run/hostapd
+country_code=US
+interface=wlan1
+driver=nl80211
+ssid=wlan open
+ignore_broadcast_ssid=0
+ieee80211d=1
+hw_mode=a
+ieee80211n=1
+require_ht=1
+ieee80211ac=1
+channel=40
+wmm_enabled=1
+
+
+# In HT, 149 works
+# 44 does not
+channel=149
+#channel=44
+# ...
+hw_mode=a
+
+ieee80211n=1
+ht_capab=[HT40+][LDPC][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+
+ieee80211ac=1
+vht_oper_chwidth=1
+#vht_oper_chwidth=2
+vht_capab=[RXLDPC][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP3][SHORT-GI-80][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+vht_oper_centr_freq_seg0_idx=155
+
+
+uapsd_advertisement_enabled=1
+
+
+tx_queue_data3_aifs=7
+tx_queue_data3_cwmin=15
+tx_queue_data3_cwmax=1023
+tx_queue_data3_burst=0
+tx_queue_data2_aifs=3
+tx_queue_data2_cwmin=15
+tx_queue_data2_cwmax=63
+tx_queue_data2_burst=0
+tx_queue_data1_aifs=1
+tx_queue_data1_cwmin=7
+tx_queue_data1_cwmax=15
+tx_queue_data1_burst=3.0
+tx_queue_data0_aifs=1
+tx_queue_data0_cwmin=3
+tx_queue_data0_cwmax=7
+tx_queue_data0_burst=1.5
+
+
+
+Things to fix
+1.	In AP scaffold, online show go to red if no polls received
+2.	Need to associate AccessPointRadioProfiles with AccessPointRadios rather then Access Points.
+3.	The AP seems to ALWAYS use the default profile.  NO matter what.
+
+
+Dynamic VLAN assignments:
+We want to assign each device in a network a random VLAN from a pool.  This should work for both single PSK SSIDS, and open SSIDs.ss
+There will be a new hostapd mode dynamic_vlan=3. For this the hostapd must associate with the user, then send a message to the pifi_state_machine with the MAC, with a request for a VLAN. The pifi_state_machine will hit an rXg endpoint with the MAC, and get a VLAN assignment back.  This will be sent to the wlanbridge.
+
+Proposed Dynamic VLAN Design
+There are (at least) two distinct VLAN assignment options for the PiFi.  The first, already implemented, is where the rXg provides a list of PMK/VLAN_ID pairs to each Pi, and the VLAN is used whenever the matching PSK is used.  This is relatively static, e.g. system wide there is a one-to-one relationship between users and VLAN IDs.
+
+A second, more dynamic, design is where the AP instance is set for either a shared PSK, or no PSK (Open).  In this case the PiFi assigns a unique VLAN ID to each device from a pool of VLAN IDs. This can be done in one of two ways.  One way, the rXg can centrally manage everything, assigning VLAN ID from a central pool each time a client associates to an AP. A second option, the rXg can provide each Pi with a subset of VLAN IDs from its pool, which the Pi’s manage locally.
+
+The first way is more complex, and introduces a lag in the association process as the PiFi must query the rXg for a VLAN ID for each association. On the other hand, since VLAN ID to Mac addresses are centrally managed, a given client can maintain a single VLAN ID as the user roams, which also means they can keep the same IP address.  This greatly speeds roaming.
+
+The second way is quicker, as the rXg does not need to be asynchronously queried for each association.  However, roaming will be slowed as both VLAN ID and IP address will need to change if the device roams to a different AP.
+
+
+Admin role model to the active record model is many to many
+Has many through
+
+Wireless Clients
+function sshr() {
+  ssh $1 'cat /etc/issue' | grep -m1 -Eo "([A-Z]{24})" | head -n 1 | pbcopy; ssh -tt $1 su -
+}
+
+WirelessClient.new(JSON.parse(data))
+
+tfdev
+
+https://git.rgnets.com/
+
+sshuttle -r jps0.rgnets.net 192.168.6.1/24
+
+Certification
+http://quiz.rgnets.com/
+https://docs.google.com/document/d/1MXp4qgwTSQmSIiyzctwNywENjm2Cg4Mrok7HjfPgOBw/edit#
+CWAP, CWSP, CWDP, CWNA
+
+EAP  TLS HOstapd
+https://gist.github.com/noahwilliamsson/f2714e63e5959ffa9c92
+
+
+developer tokens:
+Wlanbridge:
+y3s8CMCDFzWXaZzFk7-y
+
+
+Hostapd:
+gitlab+deploy-token-50
+565sQzpEsVRavVL5VZNf
+
+hostapd personal access token:
+P9oHZ_VBV_ycm8Y3DF96
+
+Piglet
+3rVjFAm-L93iPoJd46sG
+
+
+Merge with master:
+git fetch
+git merge origin/master
+git push origin aba/whatever
+
+To scan for other stations
+iwlist wlan1 scan
+
+
+rXg api:
+https://jps1.rgnets.net/admin/manual/help_online?title=RESTful+API&view=restful_api
+
+require "net/ssh"
+require "net/scp"
+
+aps=["192.168.5.251","192.168.5.13","192.168.5.210","192.168.5.11"]
+username = "pi"
+pass = "piospios"
+
+aps.each do |ap|
+ # use a persistent connection to transfer files
+ Net::SCP.start(ap, username, :password => pass) do |scp|
+   # upload a file to a remote server
+   scp.upload! "/home/pi/wlanbridge/bridge", "/home/pi/"
+   scp.upload! "/opt/pifi_daemon/pifi_state_machine.rb", "/home/pi/"
+   scp.upload! "copy.sh", "/home/pi/"
+ end
+ puts "upload to #{ap} done!"
+  
+ Net::SSH.start(ap, username, password: pass) do |ssh|
+   ssh.exec("sudo su root -c 'systemctl stop pifi'")
+   ssh.exec("sudo su root -c 'cp /home/pi/bridge /opt/wlan/bridge/'")
+   ssh.exec("sudo su root -c 'cp /home/pi/pifi_state_machine.rb /opt/pifi_daemon/'")
+   ssh.exec("sudo su root -c 'systemctl start pifi'")
+   puts "copy to #{ap} done!"
+
+ end
+
+end
+
+Nov 24 testing
+Jim Office v36 old SM, Old Bridge
+Living room v36 new SM, old bridge
+Test v35, new SM, New bridge
+Family v36 new SM new Bridge
+
+
+Roaming: https://blog.fem.tu-ilmenau.de/archives/1002-HowTo-enable-WiFi-roaming-with-hostapd-and-VLANs.html
+
+Repository
+https://git.rgnets.com/rgnets/piglet
+https://git.rgnets.com/rgnets/piglet/-/blob/master/pi_agent/app/controllers/hostapd_controller.rb
+
+API Key .18
+oiXnys7JE9aKyP3cwDu8Bx631RCSbeGXJAkLqZo1KuAFXTuGyFgfr8zXLcBwogEyRMcSU4imdGzb3cTs
+
+nl80211
+https://stackoverflow.com/questions/21456235/how-nl80211-library-cfg80211-work
+
+ sudo nmap -sP -n 138.28.42.129/24
+
+
+
+
+Hostapd
+#bridge=br0
+country_code=US
+interface=wlan1
+
+
+driver=nl80211
+ssid=skonwifi
+ignore_broadcast_ssid=0
+ieee80211d=1
+hw_mode=a
+ieee80211n=1
+require_ht=1
+ieee80211ac=1
+#require_vht=1
+vht_oper_chwidth=1
+#config_acs=y
+channel=36
+vht_oper_centr_freq_seg0_idx=42
+ht_capab=[HT40+][SHORT-GI-20][SHORT-GI-40][DSSS_CCK-40][MAX-AMSDU-3839]
+vht_capab=[MAX-MPDU-3895][SHORT-GI-80][SU-BEAMFORMEE]
+# WPA stuff
+wpa=2
+auth_algs=1
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_pairwise=CCMP
+wpa_passphrase=piespies
+wmm_enabled=1
+wpa_psk_file=/etc/hostapd/hostapd.wpa_pmk_whit
+
+ctrl_interface=/var/run/hostapd┌──(rootkali)-[/etc/hostapd]
+
+.conf:
+
+
+
+
+
+Cards: https://www.qualcomm.com/products/qca9880
+
+https://discourse.ubuntu.com/t/how-to-compile-kernel-in-ubuntu-20-04/20268
+https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel
+
+
+Packet decoder:
+https://hpd.gasmi.net/
+
+Remove bridge
+# ip link set br0 down 
+# ip link del dev br0
+
+
+WPA hostapd:
+https://w1.fi/wpa_supplicant/devel/index.html
+
+Sample hostapd documentation
+
+https://gist.github.com/renaudcerrato/db053d96991aba152cc17d71e7e0f63c
+
+Tuntap
+https://backreference.org/2010/03/26/tuntap-interface-tutorial/
+http://www.microhowto.info/howto/capture_ethernet_frames_using_an_af_packet_socket_in_c.html
+
+https://hechao.li/2018/05/21/Tun-Tap-Interface/
+https://github.com/vi/udptap_tunnel/blob/master/README.md
+
+https://www.kernel.org/doc/Documentation/networking/tuntap.txt
+
+ip link set dev tap0 up
+
+Bridge table: https://www.programmersought.com/article/69241588201/
+
+
+
+Set that worked:
+/etc/init.d/hostapd:
+DAEMON_CONF=/etc/hostapd/hostapd.conf
+
+/etc/hostapd/hostapd.conf
+File Edit Options Buffers Tools Conf Help                                       
+bridge=br0
+country_code=US
+country3=0x20
+interface=wlan0
+ssid=raspi42
+hw_mode=g
+wmm_enabled=1
+channel=11
+ignore_broadcast_ssid=0
+
+/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet manual
+
+auto br0
+iface br0 inet dhcp
+bridge-ports eth0
+
+Hostap example
+/usr/share/doc/hostapd/examples/hostapd.conf
+
+Kati Kernel Build: https://www.kali.org/docs/development/recompiling-the-kali-linux-kernel/
+
+ccache
+https://installlion.com/kali/kali/main/ccache/ccache/install/index.html
+export PATH="/usr/lib/ccache:$PATH"
+
+
+This is an archive of the hostapd setup I've been using (this is running on the PI)
+Tarball 
+PI.etc.hostapd.tar
+10 kB Tarball
+10 kB — Click to download
+8:09
+This is how to setup WPA2 authentication with hostapd and FreeRADIUS, it's missing the VLAN part.
+https://raspiblog.noblogs.org/post/2019/09/02/wpa2-enterprise-access-point-with-hostapd-and-freeradius/
+
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+sudo systemctl start hostapd
+
+https://null-byte.wonderhowto.com/how-to/turn-your-raspberry-pi-into-wireless-hotspot-0180133/
+Unmask
+https://www.raspberrypi.org/forums/viewtopic.php?t=235598
+
+CHannels:
+https://en.wikipedia.org/wiki/List_of_WLAN_channels#5_GHz_(802.11a/h/j/n/ac/ax)
+
+hostapd /etc/hostapd/hostapd.conf
+or (for more debug info)
+hostapd -d /etc/hostapd/hostapd.conf
+
+
+Bridging:
+sudo apt install bridge-utils
+
+https://www.cyberciti.biz/faq/how-to-configuring-bridging-in-debian-linux/
+https://trisquel.info/en/wiki/make-bridge-ethernet-wifi
+
+https://www.raspberrypi.org/documentation/configuration/wireless/access-point-bridged.md
+
+Bridging with networkmanage
+https://www.cyberciti.biz/faq/how-to-add-network-bridge-with-nmcli-networkmanager-on-linux/
+
+so this is working for me:
+/etc/network/interfaces
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet manual
+auto br0
+iface br0 inet dhcp
+bridge-ports eth0
+/etc/hostapd/hostapd.conf
+bridge=br0
+country_code=FR
+interface=wlan0
+ssid=raspi42
+hw_mode=g
+wmm_enabled=1
+channel=11
+ignore_broadcast_ssid=0
+
+# Levels (minimum value for logged events):                                                     
+#  0 = verbose debugging                                                                        
+#  1 = debugging                                                                                
+#  2 = informational messages                                                                   
+#  3 = notification                                                                             
+#  4 = warning                                                                                  
+#                                                                                               
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+
+
+
+
+Aaron
+hostapd.conf
+bridge=br0
+country_code=US
+interface=wlan0
+ssid=skonpie
+hw_mode=g
+wmm_enabled=1
+channel=11
+ignore_broadcast_ssid=0
+# WPA stuff
+wpa=2
+auth_algs=1
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_pairwise=CCMP
+wpa_passphrase=jimskonpie
+# Levels (minimum value for logged events):                                     
+#  0 = verbose debugging                                                        
+#  1 = debugging                                                                
+#  2 = informational messages                                                   
+#  3 = notification                                                             
+#  4 = warning                                                                  
+#                                                                              \
+                                                                                
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+
+
+
+Setup:
+emacs /etc/NetworkManager/NetworkManager.conf
+remove type:bridge from
+[keyfile]
+unmanaged-devices=type:tun;type:veth
+Error: Connection activation failed: Activation failed because the device is unmanaged
+To fix:
+sudo service NetworkManager restart
+nmcli con show
+nmcli connection show --active
+sudo nmcli con add ifname br0 type bridge con-name br0
+sudo nmcli con add type bridge-slave ifname eth0 master br0
+└─# nmcli con show
+NAME                UUID                                  TYPE      DEVICE
+Wired connection 1  c41af369-cd50-39e9-8474-d811f1dff6ad  ethernet  eth0
+br0                 a1700520-c609-41c5-a0be-636463c5452a  bridge    --
+bridge-slave-eth0   b489ac21-67b7-431b-a0af-17f371b00852  ethernet  --
+nmcli con modify br0 bridge.stp no
+sudo nmcli con up br0
+sudo nmcli con down "Wired connection 1"
+└─# nmcli con show
+NAME                UUID                                  TYPE      DEVICE
+br0                 a1700520-c609-41c5-a0be-636463c5452a  bridge    br0
+docker0             4dfbdcd8-3b81-4494-805c-fae15b2e3011  bridge    docker0
+hassio              4aa7d917-1fd8-4d89-b6ad-7c337b0e5d2b  bridge    hassio
+bridge-slave-eth0   b489ac21-67b7-431b-a0af-17f371b00852  ethernet  eth0
+Wired connection 1  c41af369-cd50-39e9-8474-d811f1dff6ad  ethernet  --
+service hostapd start
+Failed to start hostapd.service: Unit hostapd.service is masked.
+systemctl unmask hostapd
+Removed /etc/systemd/system/hostapd.service.
+service hostapd start
+
+apt-get install -y isc-dhcp-relay
+
+
+
+8:56
+the trick was to not add wlan0 to the bridge in /etc/network/interfaces, but to let hostapd do that instead (by adding bridge=br0 in hostapd.conf) (edited) 
+8:57
+I've also added this line to /etc/sysctl.conf
+net.ipv4.ip_forward=1
+8:57
+I don't know how valuable this is to you, but at least it demonstrates that bridging works over WiFi on the PI
+8:58
+# brctl show
+bridge name     bridge id               STP enabled     interfaces
+br0             8000.b827eb30a1b7       no              eth0
+                                                       wlan0
+WPA: sending 1/4 msg of 4-Way Handshake STA c8:69:cd:b1:8d:5c WPA: EAPOL-Key timeout
+
+MACBOOK wifi mac: 82:18:16:d7:c2:40
+
+apt-get install -y isc-dhcp-relay
+11:07
+dhcrelay -q 102.168.5.1
+
+tcpdump -i vmx1 port 67 or port 68 -e -n -vv
+
+From Aaron
+vi /etc/NetworkManager/NetworkManager.conf
+remove type:bridge from
+[keyfile]
+unmanaged-devices=type:tun;type:veth
+Error: Connection activation failed: Activation failed because the device is unmanaged
+To fix:
+sudo service NetworkManager restart
+nmcli con show
+nmcli connection show --active
+sudo nmcli con add ifname br0 type bridge con-name br0
+sudo nmcli con add type bridge-slave ifname eth0 master br0
+└─# nmcli con show
+NAME                UUID                                  TYPE      DEVICE
+Wired connection 1  c41af369-cd50-39e9-8474-d811f1dff6ad  ethernet  eth0
+br0                 a1700520-c609-41c5-a0be-636463c5452a  bridge    --
+bridge-slave-eth0   b489ac21-67b7-431b-a0af-17f371b00852  ethernet  --
+nmcli con modify br0 bridge.stp no
+
+sudo nmcli con down "Wired connection 1"
+└─# nmcli con show
+NAME                UUID                                  TYPE      DEVICE
+br0                 a1700520-c609-41c5-a0be-636463c5452a  bridge    br0
+docker0             4dfbdcd8-3b81-4494-805c-fae15b2e3011  bridge    docker0
+hassio              4aa7d917-1fd8-4d89-b6ad-7c337b0e5d2b  bridge    hassio
+bridge-slave-eth0   b489ac21-67b7-431b-a0af-17f371b00852  ethernet  eth0
+Wired connection 1  c41af369-cd50-39e9-8474-d811f1dff6ad  ethernet  --
+service hostapd start
+Failed to start hostapd.service: Unit hostapd.service is masked.
+systemctl unmask hostapd
+Removed /etc/systemd/system/hostapd.service.
+service hostapd start
+
+USB Wifi Compatability
+https://elinux.org/RPi_USB_Wi-Fi_Adapters
+
+Driver:
+https://forums.linuxmint.com/viewtopic.php?t=330714
+
+Driver install for realtek
+apt-get install realtek-rtl88xxau-dkms
+sudo apt update
+sudo apt upgrade
+
+
+https://github.com/aircrack-ng/rtl8812au
+
+Didn't worked:
+sudo apt install git dkms
+export GIT_SSL_NO_VERIFY=1
+git clone https://github.com/aircrack-ng/rtl8812au.git
+sudo apt-get install dkms
+sed -i 's/CONFIG_PLATFORM_I386_PC = y/CONFIG_PLATFORM_I386_PC = n/g' Makefile
+sed -i 's/CONFIG_PLATFORM_ARM64_RPI = n/CONFIG_PLATFORM_ARM64_RPI = y/g' 
+ export ARCH=arm
+sed -i 's/^MAKE="/MAKE="ARCH=arm\ /' dkms.conf
+sudo make dkms_install  # worked
+
+sudo apt install git dkms
+git clone https://github.com/aircrack-ng/rtl8812au.git
+cd rtl8812au 
+sudo ./dkms-install.sh 
+
+Had to:
+apt update -y && apt upgrade -y && apt dist-upgrade
+
+Turn off certs
+export GIT_SSL_NO_VERIFY=1
+
+ALso: https://www.raspberrypi.org/forums/viewtopic.php?t=250911
+
+sudo wget http://downloads.fars-robotics.net/wifi-drivers/install-wifi -O /usr/bin/install-wifi
+sudo chmod +x /usr/bin/install-wifi
+Install-wifi
+
+
+
+
+iptables -I FORWARD 1 -i eth0 -o wlan0 -j ACCEPT
+
+something must be wrong with my setup
+
+
+ieee80211n=1 # 802.11n support 
+ieee80211ac=1 # 802.11ac support
+
+hw_mode=a
+channel=36
+https://www.cyberciti.biz/faq/how-to-add-network-bridge-with-nmcli-networkmanager-on-linux/
+
+iw wlan0 info
+
+aba  9:06 PM
+Solution to stabilize v3 image (clients connected for several hours without interruption):
+vi /etc/NetworkManager/NetworkManager.conf
+(remove type:bridge)
+sudo service NetworkManager restart
+sudo nmcli con add ifname br0 type bridge con-name br0
+sudo nmcli con add type bridge-slave ifname eth0 master br0
+nmcli con modify br0 bridge.stp no
+sudo nmcli con up br0
+sudo nmcli con down "Wired connection 1"
+systemctl unmask hostapd
+systemctl mask wpa_supplicant.service
+sudo shutdown -r now
+sysctl net.ipv4.conf.all.forwarding=1
+sudo iptables -P FORWARD ACCEPT
+add to hostapd.conf:
+bridge=br0
+country_code=US
+interface=wlan0
+ssid=aaronpie
+hw_mode=g
+channel=11
+ignore_broadcast_ssid=0
+# WPA stuff
+wpa=2
+auth_algs=1
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_pairwise=CCMP
+wpa_passphrase=aaronpie
+wmm_enabled=0
+
+hostapd -dd /etc/hostapd/hostapd.conf
+
+
+Next - Radius
+
+This is the hostapd.conf I've been using for Radius:
+bridge=br0
+country_code=FR
+interface=wlan1
+ssid=raspi42
+hw_mode=g
+wmm_enabled=1
+channel=11
+ignore_broadcast_ssid=0
+# WPA stuff
+wpa=2
+auth_algs=1
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+wpa_pairwise=CCMP
+wpa_passphrase=skon2021
+# RADIUS stuff
+macaddr_acl=2
+
+#deny_mac_file=/etc/hostapd/deny.conf
+auth_server_addr=10.3.0.254
+auth_server_port=1812
+auth_server_shared_secret=td5hIVV9Z737p0hm-AZxhg
+acct_server_addr=10.3.0.254
+acct_server_port=1813
+acct_server_shared_secret=td5hIVV9Z737p0hm-AZxhg
+radius_das_port=3799
+radius_das_client=0.0.0.0 s3cr3t
+# VLAN stuff
+dynamic_vlan=1
+per_sta_vif=1
+vlan_file=/etc/hostapd/vlan.conf
+vlan_bridge=br0
+vlan_tagged_interface=eth0
+vlan_naming=0
+4:57
+And this is my vlan.conf. It's creating VLAN interfaces, and I can see the VLAN ID in the Radius reply, but the VLAN interface names are still broken
+1       wlan1.1
+*       wlan1.#
+4:58
+On the rXg side, I created a Radius realm (in Services -> Radius) with these attributes:
+image.png 
+ 
+4:59
+Ruckus and Aruba... I don't know what they're still doing there, the ones you really want are the three "tunnel-*" at the bottom (edited) 
+
+
+RADIUS
+https://framkant.org/2015/11/wpa2-enterprise-with-hostapd/
+
+Mac auth bypass
+
+radtest example:
+radtest aaronpie aaronpie lab1.aaronaycock.com 1812 radiussecret
+tcpdump example:
+tcpdump -vnes0 -i vmx1 port 1812
+echo "User-Name = test" | radclient 192.168.5.1 auth password123
+
+echo "User-Name = a0:ce:c8:de:e9:3c" | radclient 192.168.5.1:1812 auth password123
+
+echo "User-Name=a0:ce:c8:de:e9:3c,User-Password=a0:ce:c8:de:e9:3c,Framed-Protocol=PPP " | /usr/local/bin/radclient 192.168.5.1:1812 auth password123
+
+
+echo "User-Name=a0:ce:c8:de:e9:3c,User-Password=a0:ce:c8:de:e9:3c" | radclient 192.168.5.1:1812 auth password123
+
+
+echo "User-Name=skon,User-Password=7n5cvjCxZxY9" | radclient 192.168.5.1:1812 auth password123
+
+Wi-Fi: Hostapd VLAN for guest network
+
+
+https://mhtechz.wordpress.com/2016/04/11/wi-fi-hostapd-vlan-for-guest-network/
+
+
+CUstom kali Image
+https://www.kali.org/docs/development/custom-raspberry-pi-image/
+
+Rebuilding packages
+https://www.kali.ordpkg-buildpackage -b -rfakeroot -us -uc
+g/docs/development/arm-cross-compilation-environment/
+https://www.kali.org/docs/development/rebuilding-a-package-from-source/
+
+Build package with no check
+dpkg-buildpackage -rfakeroot -Tclean
+
+export LC_ALL=C
+
+cd 
+Build
+dpkg-buildpackage -b
+dpkg-buildpackage -b -rfakeroot -us -uc
+
+
+Install
+dpkg -i hostapd_2.9.0-21_armhf.deb
+
+
+
+
+
+RGNets hostapd version 0.9 with PMK and local VLAN support. Built Feb 25 2021 21:19:14
+
+
+
+http://lists.infradead.org/pipermail/hostap/2013-December/029295.html
+   
+1:49
+https://github.com/latelee/hostapd/blob/b97f32062c9a29fe6b12b5082832e34ed565b7de/src/ap/drv_callbacks.c#L128
+src/ap/drv_callbacks.c:128
+        wpa_printf(MSG_INFO, "STA " MACSTR " not allowed to connect",
+ latelee/hostapd | Added by GitHub
+
+ 
+
+Need to call this routine: hostapd_radius_acl_query
+Hostapd_allowed_address
+
+We MUST call: ieee802_11_allowed_address
+
+Called in: handle_probe_req.  
+
+wpa_supplicant_event_global in drv_callbacks.c calls
+wpa_supplicant_event in drv_callbacks.c calls
+hostapd_mgmt_rx in drv_callbacks.c calls
+ ieee802_11_mgmt (in ieee802_11.c) calls
+    handle_probe_req in beacon.c calls
+      ieee802_11_allowed_address in ieee802_11.c calls:
+        hostapd_allowed_address in ieee802_11_auth.c
+          hostapd_radius_acl_query in ieee802_11_auth.c
+
+ieee802_11_mgmt
+Auth_sae_process_commit and ieee802_11_mgmt in ieee802_11.c
+    handle_auth in  ieee802_11.c calls 
+      ieee802_11_allowed_address in ieee802_11.c calls:
+        hostapd_allowed_address in ieee802_11_auth.c
+          hostapd_radius_acl_query in ieee802_11_auth.c
+
+What is this never used? 
+
+driver/driver.h contains all the wpa event types
+
+
+bss->macaddr_acl
+        enum macaddr_acl {
+                ACCEPT_UNLESS_DENIED = 0,
+                DENY_UNLESS_ACCEPTED = 1,
+                USE_EXTERNAL_RADIUS_AUTH = 2
+        } macaddr_acl;
+
+
+
+
+On rXg to watch radius requests:
+tcpdump -vnes0 -i vmx1 port 1812
+
+To test:
+  radtest aaronpie aaronpie lab1.aaronaycock.com 1812 radiussecret
+
+radtest jimskon1 jimskon1 192.168.5.1 1812 skontest
+
+
+Debug Notes:
+Internal Wifif not working.  Gets kicked out in hostapd_notif_assoc (drv_callbacks.c) when it calls hostapd_check_acl
+	/*                                                                                                     
+         * ACL configurations to the drivers (implementing AP SME and ACL                                      
+         * offload) without hostapd's knowledge, can result in a disconnection                                 
+         * though the driver accepts the connection. Skip the hostapd check for                                
+         * ACL if the driver supports ACL offload to avoid potentially                                         
+         * conflicting ACL rules.                                                                              
+         */
+
+Radius checking gets done because of an incoming radius packet:
+
+●	hostapd_allowed_address in ieee802_11_auth.c. Called from
+●	ieee802_11_allowed_address in ieee802_11.c. which is called from
+●	handle_auth in ieee802_11.c.  Call from:
+●	ieee802_11_mgmt  in ieee802_11.c  Called from
+●	hostapd_acl_recv_radius  in  ieee802_11_auth.c.
+
+Need to find where radius packet is sent.  In hostapd_allowed_address.  But this isn't called when using internal radio.
+
+With both radios we get this when we get the sta key:
+IEEE 802.1X: Ignore STA - using PSK
+wlan0: STA c8:69:cd:b1:8d:5c WPA: start authentication
+
+
+With Atheros we send the radius request:
+wlan1: Event RX_MGMT (18) received
+mgmt::auth
+authentication: STA=c8:69:cd:b1:8d:5c auth_alg=0 auth_transaction=1 status_code=0 wep=0 seq_ctrl=0x42a0
+RGNets: ieee802_11_allowed_address
+RGNets: hostapd_check_acl: Pending
+RGNets: USE_EXTERNAL_RADIUS_AUTH
+RGNets: hostapd_acl_cache_get
+RGNets: cache result:0
+RGNets: query external RADIUS server
+RGNets hostapd_radius_acl_query
+wlan1: RADIUS Sending RADIUS message to authentication server
+RADIUS message: code=1 (Access-Request) identifier=0 length=149
+   Attribute 1 (User-Name) length=14
+      Value: 'c869cdb18d5c'
+   Attribute 2 (User-Password) length=18
+      Value: 0cab7b9aaaf36ef5399bc5dfd13cbdcb
+   Attribute 30 (Called-Station-Id) length=30
+      Value: 'E2-DF-25-20-11-66:rxg-mactry'
+   Attribute 61 (NAS-Port-Type) length=6
+      Value: 19
+   Attribute 31 (Calling-Station-Id) length=19
+      Value: 'C8-69-CD-B1-8D-5C'
+   Attribute 77 (Connect-Info) length=24
+      Value: 'CONNECT 11Mbps 802.11b'
+   Attribute 80 (Message-Authenticator) length=18
+      Value: 5c941e4e76f14521a647717e713626c0
+
+
+Ieee802_11_mgmt in ieee802_11.c gets the radius authentications started.
+
+?? Can we call ieee802_11_mgmt in ieee802_11.c when we get a ASSOC request ??
+
+Internal Fails in wpa_driver_nl80211_set_key in driver_nl80211.c
+wpa_driver_nl80211_set_key: ifindex=3 (wlan0) alg=0 addr=0x2406428 key_idx=0 set_tx=1 seq_len=0 key_len=0
+   addr=c8:69:cd:b1:8d:5c
+nl80211: set_key failed; err=-22 Invalid argument)
+RSN: PTK removal from the driver failed
+
+In in driver_nl80211.c.
+
+Calls send_and_recv_msgs in 
+
+Try this:
+In hostapd_notif_assoc  (drv_callbacks.c) initiate a radius check.
+
+
+
+Set up WiFi client
+https://www.raspberrypi.org/documentation/configuration/wireless/access-point-bridged.md
+
+Static VLAN Setup
+https://serverfault.com/questions/937595/hostapd-mapping-mac-address-to-vlan-id-static-mapping-via-accept-mac-file
+
+RT5370
+RT5572 Wireless Adapter? 148f:5572 Ralink Technology, Corp
+
+
+Realtek 
+[10683.048067] usb 1-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[10683.048098] usb 1-1.1: Product: 802.11ac WLAN Adapter 
+[10683.048124] usb 1-1.1: Manufacturer: Realtek 
+[10683.048147] usb 1-1.1: SerialNumber: 00e04c000001
+
+
+rtl8821au linux driver
+
+https://kalitut.com/how-to-install-rtl8812au/
+
+Static VLAN mapping:
+https://serverfault.com/questions/937595/hostapd-mapping-mac-address-to-vlan-id-static-mapping-via-accept-mac-file
+
+CONFIG_FULL_DYNAMIC_VLAN
+
+
+Modify /src/ap/wpa_auth  function wpa_recieve to crack WPA code
+
+Use algorithm in: freeradius_hook in rxgd/bin line 308
+
+struct wpa_state_machine
+wpa_auth->addr
+wpa_auth->addr
+
+
+wpa_auth.c
+  Vwpa_auth_pmksa_add
+
+
+wpa_auth_get_psk
+
+
+https://www.ins1gn1a.com/understanding-wpa-psk-cracking/
+
+
+hostapd_wpa_auth_get_psk
+
+Wpa_auth.c  calls wpa_auth_get_psk
+Which indirectly calls hostapd_wpa_auth_get_psk, in wpa_auth_glue.c
+This calls hostapd_get_psk  in 	ap_config.c 
+
+Pmk:
+21 CB EB C4 54 B1 C1 29 14 C6 44 04 D4 D6 6F E6 A2 34 90 9C 4E 3E FE F7 75 50 A8 FB A0 2C 3C F0
+IcvrxFSxwSkUxkQE1NZv5qI0kJxOPv73dVCo+6AsPPA=
+
+
+pmk=pmMjm1HTRjwQ6fTc0ukU3mmJCdOS59dlIj7wtP71INU=
+
+
+
+Pi
+Set emacs :
+.bashrc file
+export EDITOR='program'
+export VISUAL='program'
+crontab -e
+@reboot sleep 30 && /bin/bash -l -c 'hostapd /etc/hostapd/hostapd.conf'
+
+Generate pmk's
+https://www.wireshark.org/tools/wpa-psk.html
+
+Hostapd wpa_psk_file format.
+
+Each line contains one of the following formats:
+
+1.	For pmk's:
+vlanid=id pmk=pmk 
+(in either order,
+An example is:
+vlanid=999 pmk=iH4CZnjRLcZzNB2YYyh47NjFLt1RIze5VHLDLzYbmK0=  
+pmk=oNm6NFT89OchNLQmIdRjbUpxB8so+TBjWmU2wyZy79s= vlanid=5
+vlanid=2 pmk=fZnjlAk3DIQR7CzVedN3jJALun8YgUlyV/pBVZDV4nY=
+vlanid=3 pmk=6lp1OwgogYr2BieXgmPifBEV9Qah2iPYspTBEa7UNx4=
+vlanid=4 pmk=2FcsHvpjTRumhv+qJ12ZY/R39iP4t8qAPNvyZWV+I1Q=
+
+2.	For psk's:
+mac_address pks vlanid=id 
+(order matters, vlanid is optional)
+Example:
+C8:69:CD:B1:8D:5C skonmacbook
+C8:69:CD:B1:8D:5C kellygirl1
+DC:08:0F:0A:EB:D1 skonphone
+
+
+
+Code
+require 'active_support/core_ext/string/filters'
+
+def find_max_wlan ()
+ output = `ip link show`
+
+ #puts(output)
+ interfaces = Array.new
+ i=0
+ max_index=-1
+ max_interface = "none"
+ output.each_line do |line|
+    
+   if not line =~ /^\s/
+     j = line =~ /wlan/
+     if j
+       index=line[j+4,1]
+       index=index.to_i
+       if index > max_index
+         max_index=index
+         max_interface=line[j,5]
+       end
+     end
+   end
+ end
+  
+   return max_interface
+end
+
+def pick_wlan_chan (chan_list)
+ hw_modes = chan_list.keys
+ hw_mode = hw_modes.sample
+
+ chan = chan_list[hw_mode].sample
+ chan_info = Hash.new("chan_info")
+ chan_info["hw_mode"] = hw_mode
+ chan_info["chan"] = chan
+ return chan_info
+end
+
+chans = Hash.new("chan")
+chans["g"] = [1,6,11]
+chans["a"] = [36,40,44,48,149,153,157,161,165,169]                                
+selection = pick_wlan_chan (chans)
+puts selection["hw_mode"],selection["chan"]
+
+
+
+  def find_max_wlan ()
+    output = get_command_output('ip link show')
+
+    #puts(output)
+    interfaces = Array.new
+    i=0
+    max_index=-1
+    max_interface = "none"
+    output.each_line do |line|
+
+      if not line =~ /^\s/
+        j = line =~ /wlan/
+        if j
+          index=line[j+4,1]
+          index=index.to_i
+          if index > max_index
+            max_index=index
+            max_interface=line[j,5]
+          end
+        end
+      end
+    end
+    return max_interface
+  End
+
+
+
+
+
+curl -X POST -k -H 'Content-Type: application/json' -i 'https://192.168.25.1/pifi/test' --data '{
+   "ap_info":{
+      "mac":"dc:a6:32:b9:fc:c0",
+      "wlan":"wlan1",
+      "os":"4.19.118-Re4son-v7l+\n",
+      "model":"Raspberry Pi 4 Model B Rev 1.2",
+      "serial":"100000005500d984",
+      "channels":"{\"g\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14],\"a\":[36,40,44,48,149,153,157,161,165]}"
+   }
+}'
+curl -X POST -k -H 'Content-Type: application/json' -i 'https://192.168.25.1/pifi/get_config.json' --data {"mac":"dc:a6:32:b9:fc:c0","conf_hash":"FFFFFFFFFFFF","pmk_hash":"FFFFFFFFFFFF"}
+
+
