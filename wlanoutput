@@ -1,0 +1,60 @@
+Internal:
+iw dev wlan0 station dump
+
+Station c8:69:cd:b1:8d:5c (on wlan0)
+       inactive time:  0 msselect_channel
+       rx bytes:       32085302
+       rx packets:     69562
+       tx bytes:       78172901
+       tx packets:     67135
+       tx failed:      748
+       tx bitrate:     72.2 MBit/s
+       rx bitrate:     24.0 MBit/s
+       authorized:     no
+       authenticated:  yes
+       associated:     yes
+       WMM/WME:        yes
+       TDLS peer:      yes
+       DTIM period:    2
+       beacon interval:100
+       short slot time:yes
+       connected time: 4250 seconds
+
+Comfast:
+iw dev wlan1 station dump
+Station 0e:19:e1:37:6d:92 (on wlan1)
+       inactive time:  5920 ms
+       signal:         -34 dBm
+
+
+ 
+NetGear:
+iw dev wlan1 station dump
+Station 0e:19:e1:37:6d:92 (on wlan1)
+       inactive time:  40 ms
+       rx bytes:       20221
+       rx packets:     211
+       tx bytes:       65185
+       tx packets:     190
+       tx retries:     88
+       tx failed:      1
+       rx drop misc:   3
+       signal:         -52 [-52, -55] dBm
+       signal avg:     -50 [-50, -55] dBm
+       tx bitrate:     156.0 MBit/s VHT-MCS 8 VHT-NSS 2
+       rx bitrate:     6.0 MBit/s
+       rx duration:    14060 us
+       expected throughput:    46.875Mbps
+       authorized:     yes
+       authenticated:  yes
+       associated:     yes
+       preamble:       long
+       WMM/WME:        yes
+       MFP:            no
+       TDLS peer:      no
+       DTIM period:    2
+       beacon interval:100
+       short slot time:yes
+       connected time: 13 seconds
+
+
