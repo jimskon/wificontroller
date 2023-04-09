@@ -58,7 +58,6 @@ CREATE TABLE `wlans` (
   `channel` int(11) DEFAULT 0,
   `clientid` int(11) DEFAULT NULL,
   FOREIGN KEY (clientid) REFERENCES wificlient(id),
-  FOREIGN KEY (zoneid) REFERENCES zone(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `user` (
