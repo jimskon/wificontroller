@@ -1,5 +1,5 @@
 
-CREATE TABLE `owner` (
+CREATE TABLE `account` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `first` varchar(30) DEFAULT NULL,
   `last` varchar(30) DEFAULT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE `owner` (
   `city` varchar(30) DEFAULT NULL,
   `state` varchar(20) DEFAULT NULL,
   `zip` varchar(15) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL
+  `accounttype` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `wificlient` (
