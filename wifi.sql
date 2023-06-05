@@ -1,8 +1,8 @@
 
 CREATE TABLE `account` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `first` varchar(30) DEFAULT NULL,
-  `last` varchar(30) DEFAULT NULL,
+  `first_name` varchar(30) DEFAULT NULL,
+  `last_name` varchar(30) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `phone` varchar(30) DEFAULT NULL,
   `address1` varchar(30) DEFAULT NULL,
@@ -22,6 +22,7 @@ CREATE TABLE `wificlient` (
   `osversion` varchar(45) DEFAULT NULL,
   `hwmodel` varchar(45) DEFAULT NULL,
   `status` varchar(10) DEFAULT NULL,
+  `enabled` boolean DEFAULT FALSE,
   `pollrate` int(11) DEFAULT 5,
   `lastseen` datetime NOT NULL,
   `note` varchar(600) DEFAULT NULL,
