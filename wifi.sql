@@ -53,6 +53,7 @@ CREATE TABLE `wlans` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `mac` varchar(18) DEFAULT NULL,
   `name` varchar(30) DEFAULT NULL,
+  `zoneid` int(11) DEFAULT NULL,
   `description` varchar(80) DEFAULT NULL,
   `status` varchar(10) DEFAULT NULL,
   `wlan` varchar(20) DEFAULT NULL,
@@ -69,7 +70,8 @@ CREATE TABLE `wlans` (
   `selected_g` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (clientid) REFERENCES wificlients(id)
+  FOREIGN KEY (clientid) REFERENCES wificlients(id),
+  FOREIGN KEY (zoneid) REFERENCES zone(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `users` (
