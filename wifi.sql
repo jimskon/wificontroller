@@ -37,7 +37,7 @@ CREATE TABLE `wificlients` (
   FOREIGN KEY (ownerid) REFERENCES owner(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `zone` (
+CREATE TABLE `zones` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `description` varchar(80) DEFAULT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `wlans` (
   FOREIGN KEY (clientid) REFERENCES wificlient(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE `user` (
   FOREIGN KEY (ownerid) REFERENCES owner(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `userzone` (
+CREATE TABLE `userzones`ws2(
   `zoneid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `mdk` varchar(60) DEFAULT NULL,
