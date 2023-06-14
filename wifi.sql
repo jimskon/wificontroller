@@ -83,7 +83,7 @@ CREATE TABLE `users` (
   FOREIGN KEY (ownerid) REFERENCES owner(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `userzones`ws2(
+CREATE TABLE `userzones` (
   `zoneid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `mdk` varchar(60) DEFAULT NULL,
