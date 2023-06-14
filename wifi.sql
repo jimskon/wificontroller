@@ -88,7 +88,7 @@ CREATE TABLE `userzone` (
   `userid` int(11) NOT NULL,
   `mdk` varchar(60) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (zoneid) REFERENCES zone(id),
   FOREIGN KEY (userid) REFERENCES user(id),
   CONSTRAINT pk_userzone PRIMARY KEY (zoneid,userid)
