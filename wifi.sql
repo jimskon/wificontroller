@@ -34,7 +34,7 @@ CREATE TABLE `wificlients` (
   `ownerid` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (ownerid) REFERENCES owner(id)
+  FOREIGN KEY (ownerid) REFERENCES accounts(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `zones` (
@@ -46,7 +46,7 @@ CREATE TABLE `zones` (
   `ownerid` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (ownerid) REFERENCES owner(id)
+  FOREIGN KEY (ownerid) REFERENCES accounts(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
   
 CREATE TABLE `wlans` (
@@ -69,7 +69,7 @@ CREATE TABLE `wlans` (
   `selected_g` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (clientid) REFERENCES wificlient(id)
+  FOREIGN KEY (clientid) REFERENCES wificlients(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `users` (
@@ -80,7 +80,7 @@ CREATE TABLE `users` (
   `ownerid` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (ownerid) REFERENCES owner(id)
+  FOREIGN KEY (ownerid) REFERENCES accounts(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `userzones` (
@@ -89,8 +89,8 @@ CREATE TABLE `userzones` (
   `mdk` varchar(60) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  FOREIGN KEY (zoneid) REFERENCES zone(id),
-  FOREIGN KEY (userid) REFERENCES user(id),
+  FOREIGN KEY (zoneid) REFERENCES zones(id),
+  FOREIGN KEY (userid) REFERENCES users(id),
   CONSTRAINT pk_userzone PRIMARY KEY (zoneid,userid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
