@@ -11,8 +11,8 @@ CREATE TABLE `accounts` (
   `state` varchar(20) DEFAULT NULL,
   `zip` varchar(15) DEFAULT NULL,
   `accounttype` varchar(10) DEFAULT NULL,
-  `created_at' datetime DEFAULT NULL,
-  `updated_at' datetime DEFAULT NULL
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `wificlients` (
@@ -32,8 +32,8 @@ CREATE TABLE `wificlients` (
   `dateadded` datetime DEFAULT NULL,
   `confighash` varchar(45) DEFAULT NULL,
   `ownerid` int(11) DEFAULT NULL,
-  `created_at' datetime DEFAULT NULL,
-  `updated_at' datetime DEFAULT NULL
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
   FOREIGN KEY (ownerid) REFERENCES owner(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
