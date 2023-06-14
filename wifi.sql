@@ -71,7 +71,7 @@ CREATE TABLE `wlans` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (clientid) REFERENCES wificlients(id),
-  FOREIGN KEY (zoneid) REFERENCES zone(id)
+  FOREIGN KEY (zoneid) REFERENCES zones(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `users` (
