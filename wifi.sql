@@ -44,6 +44,7 @@ CREATE TABLE `zones` (
   `ssid` varchar(50) DEFAULT NULL,
   `open` boolean DEFAULT TRUE,
   `ownerid` int(11) DEFAULT NULL,
+  `passphrase` varchar(30) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (ownerid) REFERENCES accounts(id)
@@ -80,6 +81,7 @@ CREATE TABLE `users` (
   `type` varchar(10) DEFAULT NULL,
   `passphrase` varchar(50) DEFAULT NULL,
   `ownerid` int(11) DEFAULT NULL,
+  `enabled` boolean DEFAULT FALSE,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (ownerid) REFERENCES accounts(id)
