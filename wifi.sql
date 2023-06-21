@@ -81,6 +81,7 @@ CREATE TABLE `users` (
   `type` varchar(10) DEFAULT NULL,
   `passphrase` varchar(50) DEFAULT NULL,
   `ownerid` int(11) DEFAULT NULL,
+  `enabled` boolean DEFAULT FALSE,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (ownerid) REFERENCES accounts(id)
