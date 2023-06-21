@@ -90,7 +90,7 @@ CREATE TABLE `users` (
 CREATE TABLE `userzones` (
   `zoneid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
-  `mdk` varchar(60) DEFAULT NULL,
+  `pmk` varchar(60) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   FOREIGN KEY (zoneid) REFERENCES zones(id),
